@@ -19,16 +19,6 @@ private:
     std::chrono::time_point<std::chrono::steady_clock> start_;
 };
 
-int main(int argc, char* argv[]) {
-    if (argc < 2) return 1;
-    
-    size_t num_threads = std::stoul(argv[1]);
-    constexpr size_t ARRAY_SIZE = 1'000'000'000ULL;
-    data_t values(ARRAY_SIZE, 1);
-    
-    return 0;
-}
-
 void sumRange(const data_t& data, size_t start, size_t end, value_t& result) {
     value_t local_sum = 0;
     for (size_t i = start; i < end; ++i) {
