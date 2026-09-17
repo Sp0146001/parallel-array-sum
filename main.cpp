@@ -3,6 +3,7 @@
 #include <chrono>
 #include <thread>
 #include <numeric>
+#include <algorithm>
 
 using data_t = std::vector<unsigned long long>;
 using value_t = data_t::value_type;
@@ -60,4 +61,30 @@ value_t parallelSum(const data_t& data, size_t num_threads) {
         total_sum += partial_sums[i];
     }
     return total_sum;
+}
+
+int main(int argc, char* argv[]) {
+    if (argc < 2) return 1;
+
+    size_t num_threads = std::stoul(argv[1]);
+    constexpr size_t ARRAY_SIZE = 1'000'000'000ULL;
+
+    data_t values(ARRAY_SIZE, 1);
+    std::vector<double> times;
+
+    for (int run = 0; run < 5; ++run) {
+        Clicker cl;
+        parallelSum(values, num_threads);
+        times.push_back(cl.millisec());
+    }
+
+    std::sort(times.begin(), times.end());
+
+    std::cout << num_threads;
+    for (double t : times) {
+        std::cout << " " << t;
+    }
+    std::cout << '\n';
+
+    return 0;
 }
